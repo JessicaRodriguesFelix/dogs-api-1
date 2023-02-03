@@ -15,7 +15,7 @@ describe('Endpoints', () => {
         color: 'black',
         description: 'Sasha is a beautiful black pooodle mix.  She is a great companion for her family.'
     };
-
+    
     beforeAll(async () => {
         // rebuild db before the test suite runs
         await seed();
@@ -31,6 +31,19 @@ describe('Endpoints', () => {
             expect(response.body).toBeDefined();
             // toEqual checks deep equality in objects
             expect(response.body[0]).toEqual(expect.objectContaining(dogs[0]));
+        });
+    });
+
+    describe('POST /dogs', () => {
+        it('should create a dog in the database', async () => {
+            // make a request
+            const response = await request(app).post('/dogs').send(testDogData);
+            // assert a response code
+            expect(response.status).toBe(200);
+            // expect a response
+            expect(response.body).toBeDefined();
+            // toEqual checks deep equality in objects
+            expect(response.body).toEqual(expect.objectContaining(testDogData));
         });
     });
 });
