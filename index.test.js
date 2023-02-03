@@ -46,4 +46,17 @@ describe('Endpoints', () => {
             expect(response.body).toEqual(expect.objectContaining(testDogData));
         });
     });
+    describe('DELETE /dogs/:id', () => {
+        it('should delete a dog by id in the database and return status 200', async () => {
+            // make a request
+            const response = await request(app).delete('/dogs/1')
+            // assert a response code
+            expect(response.status).toBe(200);
+            // expect a response
+            const deletedDog = await Dog.findByPk(1);
+            // console.log(deletedDog)
+            // toEqual checks deep equality in objects
+            expect(deletedDog).toBeNull();
+        });
+    });
 });
