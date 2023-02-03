@@ -53,4 +53,33 @@ app.get('/dogs', async (req, res, next) => {
   }
 });
 
+app.get('/dogs/:id', async (req, res, next) => {
+  try {
+    const {id} = req.params;
+    const oneDog = await Dog.findByPk(id);
+    if(!oneDog) {
+        res.status(404).send(`Dog with id ${id} not found`);
+        return;
+    } else {
+        res.status(200);
+        res.send(oneDog);
+    }
+  } catch (error) {
+    next(error);
+  }
+//   try {
+//     const {id} = req.params;
+//     const existingDog = await Dog.findByPk(id);
+//     if(!existingDog) {
+//       res.status(404).send(`Dog with id ${id} not found`);
+//       return;
+//     }
+//     await Dog.destroy({where: {id}});
+//     res.send(`deleted dog with id ${id}`);
+//   } catch (error) {
+//     next(error);
+//   }
+// });
+})
+
 module.exports = app;

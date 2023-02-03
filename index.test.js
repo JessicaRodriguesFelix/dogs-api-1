@@ -33,6 +33,25 @@ describe('Endpoints', () => {
             expect(response.body[0]).toEqual(expect.objectContaining(dogs[0]));
         });
     });
+    describe('GET /dogs/:id', () => {
+        it('should return a specific dog by id with correct data', async () => {
+            // make a request
+            const response = await request(app).get('/dogs/1');
+            //console.log(response.body)
+
+            //assign passed id to a local variable
+            const id = response.body.id;
+            // assert a response code
+            expect(response.status).toBe(200);
+            // expect a response
+            expect(response.body).toBeDefined();
+
+            const foundDog = Dog.findByPk(id);
+            //console.log(foundDog)
+            // toEqual checks deep equality in objects
+            expect(response.body).toEqual(expect.objectContaining(foundDog));
+        });
+    });
 
     describe('POST /dogs', () => {
         it('should create a dog in the database', async () => {
